@@ -115,7 +115,8 @@ def ai_plugin():
             "for email domain reputation — Zeta Global Buildathon 2026."
         ),
         "auth": {
-            "type": "none"
+            "type": "none",
+            "is_user_authenticated": False
         },
         "api": {
             "type": "openapi",
