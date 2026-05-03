@@ -15,6 +15,12 @@ app = FastAPI(
     title="Domain Reputation AI API",
     description="Multi-agent domain reputation analysis — Zeta Global Buildathon 2026",
     version="1.0.0",
+    servers=[
+        {
+            "url": "https://domainreputationaiproject.onrender.com",
+            "description": "Production server"
+        }
+    ]
 )
 
 app.add_middleware(
