@@ -1,0 +1,11 @@
+{
+  "base_url": "http://YOUR_PUBLIC_IP:PORT",
+  "endpoint": "/getAdvancedReport",
+  "headers": {
+    "Content-Type": "application/json",
+    "uId": "YOUR_USER_ID",
+    "token": "YOUR_AUTH_TOKEN"
+  },
+  "default_date_range_days": 30,
+  "timeout_seconds": 30
+}

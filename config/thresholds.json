@@ -1,0 +1,24 @@
+{
+  "weights": {
+    "open_rate":         0.20,
+    "genuine_open_rate": 0.15,
+    "click_rate":        0.10,
+    "delivery_rate":     0.20,
+    "abuse_rate":        0.20,
+    "hard_error_rate":   0.10,
+    "unsub_rate":        0.05
+  },
+  "thresholds": {
+    "open_rate":         { "good": 20.0,  "average": 10.0 },
+    "genuine_open_rate": { "good": 15.0,  "average": 8.0  },
+    "click_rate":        { "good": 2.0,   "average": 1.0  },
+    "delivery_rate":     { "good": 95.0,  "average": 90.0 },
+    "abuse_rate":        { "good": 0.1,   "average": 0.3  },
+    "hard_error_rate":   { "good": 2.0,   "average": 5.0  },
+    "unsub_rate":        { "good": 0.5,   "average": 1.0  }
+  },
+  "classification": {
+    "good_min_score":    70,
+    "average_min_score": 40
+  }
+}
