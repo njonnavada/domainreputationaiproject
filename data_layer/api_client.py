@@ -5,6 +5,7 @@ from pathlib import Path
 
 _config_path = Path(__file__).parent.parent / "config" / "api_config.json"
 
+
 def _load_config():
     with open(_config_path) as f:
         return json.load(f)
@@ -12,7 +13,8 @@ def _load_config():
 def fetch_domain_metrics(domain: str, start_date: str, end_date: str) -> dict:
     """
     Calls POST /getAdvancedReport and returns parsed TotalCounts metrics.
-    Falls back to mock data if API is unreachable.
+    Falls back to mock data for known demo domains.
+    Returns 'unknown' source if domain is not found in API or demo list.
     """
     config = _load_config()
 
@@ -138,13 +140,15 @@ def _mock_metrics(domain: str, start_date: str, end_date: str) -> dict:
         },
     ]
 
-    if domain.lower() in EXPLICIT:
-        idx = EXPLICIT[domain.lower()]
-    else:
-        # sum of ASCII values mod 3 — more balanced than md5 % 100 % 3
-        idx = sum(ord(c) for c in domain.lower()) % 3
+    if domain.lower() not in EXPLICIT:
+        return {
+            "domain":     domain,
+            "start_date": start_date,
+            "end_date":   end_date,
+            "source":     "unknown",
+        }
 
-    profile = profiles[idx]
+    profile = profiles[EXPLICIT[domain.lower()]]
     return {
         "domain":      domain,
         "start_date":  start_date,

@@ -56,6 +56,21 @@ def analyze_copilot(req: AnalyzeRequest):
     start = req.start_date or (datetime.today() - timedelta(days=30)).strftime("%Y-%m-%d")
     r = orchestrator.analyze(req.domain, start, end)
 
+    if r["metrics"].get("source") == "unknown":
+        return {
+            "domain":          req.domain,
+            "status":          "UNKNOWN",
+            "emoji":           "❓",
+            "score":           "N/A",
+            "summary":         (
+                f"I'm sorry, I don't have reputation data for '{req.domain}' at this time. "
+                f"Please enter a valid Zeta sending domain. "
+                f"For demo purposes, try: great-sender.com, mid-tier-mail.com, or bad-reputation.com."
+            ),
+            "issues":          "",
+            "recommendations": "",
+        }
+
     cls  = r["classification"]
     m    = r["metrics"]
     diag = r["diagnosis"]
