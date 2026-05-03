@@ -1,0 +1,723 @@
+================================================================================
+         DOMAIN REPUTATION AI — COMPREHENSIVE KNOWLEDGE GUIDE
+         Zeta Global Buildathon 2026 | Domain Reputation AI Agent
+================================================================================
+
+--------------------------------------------------------------------------------
+SECTION 1: OVERVIEW
+--------------------------------------------------------------------------------
+
+What is Domain Reputation?
+--------------------------
+Domain reputation is a measure of how trustworthy and reliable an email sending
+domain is, as perceived by Internet Service Providers (ISPs), spam filters, and
+email clients like Gmail, Outlook, and Yahoo.
+
+A domain with a strong reputation ensures that emails land in the recipient's
+inbox. A domain with a poor reputation results in emails being filtered to spam,
+blocked entirely, or rejected outright.
+
+Why Domain Reputation Matters at Zeta Global
+---------------------------------------------
+Zeta Global manages large-scale email marketing campaigns for hundreds of clients.
+A single domain with poor reputation can:
+  - Cause thousands of legitimate emails to land in spam
+  - Reduce campaign open rates and revenue
+  - Damage client trust and relationships
+  - Lead to ISP blacklisting of Zeta's sending infrastructure
+  - Result in financial losses due to poor email deliverability
+
+Monitoring and maintaining domain reputation is critical to ensuring campaign
+success, client satisfaction, and protecting Zeta's sender infrastructure.
+
+
+--------------------------------------------------------------------------------
+SECTION 2: THE MULTI-AGENT AI SYSTEM
+--------------------------------------------------------------------------------
+
+Architecture Overview
+---------------------
+The Domain Reputation AI uses a multi-agent architecture with three specialized
+AI agents working in sequence:
+
+  Agent 1: CLASSIFIER AGENT
+  --------------------------
+  Responsibility: Scores each email metric individually (0-100 scale) and
+  calculates a weighted overall reputation score.
+
+  Input:  Raw email metrics (delivery rate, open rate, etc.)
+  Output: Overall score (0-100), per-metric scores, classification label
+          (GOOD / AVERAGE / BAD)
+
+  Agent 2: DIAGNOSIS AGENT
+  -------------------------
+  Responsibility: Identifies root causes of reputation problems by analyzing
+  each metric against thresholds and generating structured issue reports.
+
+  Input:  Raw metrics + thresholds
+  Output: List of issues with severity (critical/warning/info), affected metric,
+          description, and supporting detail
+
+  Agent 3: RECOMMENDATION AGENT
+  ------------------------------
+  Responsibility: Generates a prioritized action plan based on the diagnosed
+  issues, ranked by impact and severity.
+
+  Input:  Diagnosed issues list
+  Output: Ranked list of recommendations with impact level, effort required,
+          and specific action steps
+
+Orchestrator
+------------
+The Orchestrator coordinates all three agents in sequence:
+  Step 1 → Fetch domain metrics from data source
+  Step 2 → Classifier Agent scores and classifies
+  Step 3 → Diagnosis Agent identifies issues
+  Step 4 → Recommendation Agent generates action plan
+  Step 5 → Return complete analysis report
+
+
+--------------------------------------------------------------------------------
+SECTION 3: EMAIL METRICS EXPLAINED
+--------------------------------------------------------------------------------
+
+The system tracks and analyzes 7 core email performance metrics.
+Each metric is scored individually and contributes to the overall reputation score.
+
+────────────────────────────────────────────────────────────────────────────────
+METRIC 1: DELIVERY RATE
+Weight in Overall Score: 20%
+Direction: Higher is better
+────────────────────────────────────────────────────────────────────────────────
+
+Definition:
+  The percentage of sent emails that were successfully delivered to the
+  recipient's mailbox (not bounced or blocked).
+
+  Delivery Rate = (Emails Delivered / Emails Sent) × 100
+
+Thresholds:
+  ✅ GOOD    : 95% or above
+  ⚠️ AVERAGE : 90% to 94.9%
+  ❌ BAD     : Below 90%
+
+What low delivery rate means:
+  - ISPs may be blocking emails from the domain
+  - Domain or sending IP may be blacklisted
+  - SPF, DKIM, or DMARC authentication may be misconfigured
+  - High bounce rates are causing ISPs to throttle or reject emails
+
+Impact: HIGH — directly affects whether emails reach recipients at all.
+
+────────────────────────────────────────────────────────────────────────────────
+METRIC 2: OPEN RATE
+Weight in Overall Score: 20%
+Direction: Higher is better
+────────────────────────────────────────────────────────────────────────────────
+
+Definition:
+  The percentage of delivered emails that were opened by recipients.
+  Includes both human opens and automated/bot opens.
+
+  Open Rate = (Total Opens / Emails Delivered) × 100
+
+Thresholds:
+  ✅ GOOD    : 20% or above
+  ⚠️ AVERAGE : 10% to 19.9%
+  ❌ BAD     : Below 10%
+
+What low open rate means:
+  - Subject lines are not compelling or relevant
+  - Emails may be landing in spam folder (even if "delivered")
+  - Sender name is not recognized or trusted by recipients
+  - Recipient list is outdated or unengaged
+  - Wrong send time — emails arriving when recipients are least active
+
+Impact: HIGH — open rate reflects both deliverability and recipient trust.
+
+────────────────────────────────────────────────────────────────────────────────
+METRIC 3: GENUINE OPEN RATE
+Weight in Overall Score: 15%
+Direction: Higher is better
+────────────────────────────────────────────────────────────────────────────────
+
+Definition:
+  The percentage of delivered emails opened by actual human recipients,
+  excluding automated bot opens (Apple MPP, security scanners, etc.).
+
+  Genuine Open Rate = (Human Opens / Emails Delivered) × 100
+
+Thresholds:
+  ✅ GOOD    : 15% or above
+  ⚠️ AVERAGE : 8% to 14.9%
+  ❌ BAD     : Below 8%
+
+Why this matters:
+  Since Apple's Mail Privacy Protection (MPP) launched in 2021, automated
+  systems pre-fetch email content which registers false opens. Genuine open
+  rate strips these out to show real human engagement.
+
+What low genuine open rate means:
+  - Most opens are bot-generated (inflated vanity metrics)
+  - Real recipients are not engaging with emails
+  - List quality may be poor — addresses may belong to inactive or
+    non-existent users
+
+Impact: MEDIUM-HIGH — indicates true recipient engagement level.
+
+────────────────────────────────────────────────────────────────────────────────
+METRIC 4: CLICK RATE
+Weight in Overall Score: 10%
+Direction: Higher is better
+────────────────────────────────────────────────────────────────────────────────
+
+Definition:
+  The percentage of delivered emails where at least one link was clicked
+  by the recipient.
+
+  Click Rate = (Emails with Clicks / Emails Delivered) × 100
+
+Thresholds:
+  ✅ GOOD    : 2% or above
+  ⚠️ AVERAGE : 1% to 1.9%
+  ❌ BAD     : Below 1%
+
+What low click rate means:
+  - Email content is not relevant to the audience
+  - Calls-to-action (CTAs) are unclear, hard to find, or unconvincing
+  - Landing page mismatch — recipients click but do not convert
+  - Email design may not be rendering correctly on mobile devices
+
+Impact: MEDIUM — reflects content quality and campaign effectiveness.
+
+────────────────────────────────────────────────────────────────────────────────
+METRIC 5: ABUSE RATE (SPAM COMPLAINT RATE)
+Weight in Overall Score: 20%
+Direction: Lower is better
+────────────────────────────────────────────────────────────────────────────────
+
+Definition:
+  The percentage of delivered emails marked as spam or junk by recipients.
+  ISPs report this via Feedback Loop (FBL) programs.
+
+  Abuse Rate = (Spam Complaints / Emails Delivered) × 100
+
+Thresholds:
+  ✅ GOOD    : 0.1% or below
+  ⚠️ AVERAGE : 0.1% to 0.3%
+  ❌ BAD     : Above 0.3%
+
+Industry Standard:
+  Google and Yahoo require abuse rates below 0.3% to maintain deliverability.
+  Exceeding 0.1% consistently triggers ISP monitoring.
+
+What high abuse rate means:
+  - Recipients did not consent to receive emails (poor opt-in process)
+  - Unsubscribe link is difficult to find or not functioning
+  - Email frequency is too high — recipients prefer to mark spam
+    rather than unsubscribe
+  - Content is irrelevant or misleading
+
+CRITICAL: Above 0.3% abuse rate can result in immediate ISP blocking
+and domain blacklisting. This is the highest-risk metric.
+
+Impact: CRITICAL — directly triggers ISP penalties and blacklisting.
+
+────────────────────────────────────────────────────────────────────────────────
+METRIC 6: HARD BOUNCE RATE (HARD ERROR RATE)
+Weight in Overall Score: 10%
+Direction: Lower is better
+────────────────────────────────────────────────────────────────────────────────
+
+Definition:
+  The percentage of sent emails that permanently failed to deliver due to
+  invalid, non-existent, or blocked email addresses.
+
+  Hard Bounce Rate = (Hard Bounces / Emails Sent) × 100
+
+Thresholds:
+  ✅ GOOD    : 2% or below
+  ⚠️ AVERAGE : 2% to 5%
+  ❌ BAD     : Above 5%
+
+Difference between Hard and Soft Bounce:
+  Hard Bounce = Permanent failure (address doesn't exist, domain invalid)
+  Soft Bounce = Temporary failure (mailbox full, server temporarily unavailable)
+
+What high hard bounce rate means:
+  - Email list contains old, invalid, or purchased addresses
+  - No email validation at point of data capture
+  - Lists have not been cleaned or updated recently
+  - Suppression lists are not being properly applied
+
+Impact: HIGH — ISPs view repeated delivery attempts to invalid addresses
+as a spam signal and will throttle or block the sending domain.
+
+────────────────────────────────────────────────────────────────────────────────
+METRIC 7: UNSUBSCRIBE RATE
+Weight in Overall Score: 5%
+Direction: Lower is better
+────────────────────────────────────────────────────────────────────────────────
+
+Definition:
+  The percentage of delivered emails that resulted in the recipient clicking
+  the unsubscribe link.
+
+  Unsub Rate = (Unsubscribes / Emails Delivered) × 100
+
+Thresholds:
+  ✅ GOOD    : 0.5% or below
+  ⚠️ AVERAGE : 0.5% to 1%
+  ❌ BAD     : Above 1%
+
+What high unsub rate means:
+  - Email content does not match what recipients signed up for
+  - Sending frequency is too high
+  - List segmentation is poor — wrong audience receiving wrong content
+  - Emails are not personalized enough
+
+Note: A high unsub rate is less dangerous than a high abuse rate, but
+persistently high unsub rates indicate audience misalignment and will
+erode list quality over time.
+
+Impact: LOW-MEDIUM — indicator of content-audience mismatch.
+
+
+--------------------------------------------------------------------------------
+SECTION 4: SCORING SYSTEM
+--------------------------------------------------------------------------------
+
+How Individual Metric Scores Are Calculated (0-100)
+----------------------------------------------------
+
+Each metric is scored on a 0-100 scale:
+
+For metrics where HIGHER is better (delivery rate, open rate, genuine open rate,
+click rate):
+
+  If value >= GOOD threshold  → Score = 100
+  If value >= AVG threshold   → Score = 50 + 50 × (value - AVG) / (GOOD - AVG)
+  If value < AVG threshold    → Score = max(0, 50 × value / AVG)
+
+For metrics where LOWER is better (abuse rate, hard bounce rate, unsub rate):
+
+  If value <= GOOD threshold  → Score = 100
+  If value <= AVG threshold   → Score = 50 + 50 × (AVG - value) / (AVG - GOOD)
+  If value > AVG threshold    → Score = max(0, 50 × AVG / value)
+
+Metric Weights
+--------------
+  Delivery Rate       20%  (0.20)
+  Open Rate           20%  (0.20)
+  Abuse Rate          20%  (0.20)
+  Genuine Open Rate   15%  (0.15)
+  Click Rate          10%  (0.10)
+  Hard Bounce Rate    10%  (0.10)
+  Unsubscribe Rate     5%  (0.05)
+  ─────────────────────────────
+  TOTAL              100%  (1.00)
+
+Overall Reputation Score
+------------------------
+  Overall Score = Σ (Metric Score × Metric Weight) for all 7 metrics
+
+  Result: A single score from 0 to 100
+
+
+--------------------------------------------------------------------------------
+SECTION 5: CLASSIFICATION LABELS
+--------------------------------------------------------------------------------
+
+Based on the Overall Score, each domain receives one of three labels:
+
+  ✅ GOOD    — Score 70 to 100
+  ─────────────────────────────────────────────────────────────────────
+  The domain has strong email sending reputation. Emails are reaching
+  inboxes reliably. Engagement metrics are healthy. No immediate action
+  required, but continued monitoring is recommended.
+
+  ⚠️ AVERAGE — Score 40 to 69
+  ─────────────────────────────────────────────────────────────────────
+  The domain has moderate reputation with some areas of concern.
+  Certain metrics are underperforming and could deteriorate further
+  without attention. Action should be taken within 1-2 weeks to
+  prevent decline into BAD status.
+
+  ❌ BAD     — Score 0 to 39
+  ─────────────────────────────────────────────────────────────────────
+  The domain has poor reputation. Multiple critical metrics are
+  underperforming. ISP blocks, blacklisting, or spam folder placement
+  is likely occurring. Immediate remediation action is required.
+
+
+--------------------------------------------------------------------------------
+SECTION 6: ISSUE SEVERITY LEVELS
+--------------------------------------------------------------------------------
+
+The Diagnosis Agent classifies each identified problem into one of three
+severity levels:
+
+  🔴 CRITICAL
+  ─────────────────────────────────────────────────────────────────────
+  Requires immediate action. The metric has breached a critical threshold
+  that puts the domain at risk of blacklisting, ISP blocking, or severe
+  deliverability loss.
+
+  Examples:
+  - Delivery rate below 90%
+  - Open rate below 10%
+  - Abuse rate above 0.3%
+  - Hard bounce rate above 5%
+
+  🟠 WARNING
+  ─────────────────────────────────────────────────────────────────────
+  Requires action within 1-2 weeks. The metric is underperforming but
+  has not yet reached a critical level. If unaddressed, it will likely
+  deteriorate to CRITICAL status.
+
+  Examples:
+  - Delivery rate between 90-95%
+  - Open rate between 10-20%
+  - Abuse rate between 0.1-0.3%
+
+  🔵 INFO
+  ─────────────────────────────────────────────────────────────────────
+  Informational alert. The metric is slightly below target but is not
+  causing significant harm. Monitoring and gradual improvement is advised.
+
+  Examples:
+  - Click rate slightly below average
+  - Unsubscribe rate slightly elevated
+
+
+--------------------------------------------------------------------------------
+SECTION 7: DIAGNOSIS — ROOT CAUSE ANALYSIS
+--------------------------------------------------------------------------------
+
+The Diagnosis Agent evaluates each metric and generates specific root cause
+explanations when thresholds are breached.
+
+DELIVERY RATE ISSUES
+─────────────────────
+Critical (< 90%):
+  "Critically low delivery rate — most emails not reaching inboxes"
+  Detail: Less than 90% of sent emails are being delivered. This signals ISP
+  blocks, IP blacklisting, or domain reputation damage.
+
+Warning (90-95%):
+  "Below-average delivery rate — inbox placement needs attention"
+  Detail: Delivery rate is between 90–95%. Minor ISP filtering or list quality
+  issues may be present.
+
+OPEN RATE ISSUES
+─────────────────
+Critical (< 10%):
+  "Very low open rate — recipients not engaging with emails"
+  Detail: Under 10% open rate indicates poor sender reputation, spam folder
+  placement, or unengaged list.
+
+Warning (10-20%):
+  "Below-average open rate — subject lines or sender reputation may be weak"
+  Detail: Open rate between 10–20%. Room to improve via better subject lines
+  and send-time optimization.
+
+GENUINE OPEN RATE ISSUES
+─────────────────────────
+Critical (< 8%):
+  "Very low genuine (human) open rate — bot opens masking real engagement"
+  Detail: Genuine opens under 8% suggest the list has poor human engagement.
+  Bot-inflated opens may hide deeper reputation issues.
+
+Warning (8-15%):
+  "Genuine open rate is below target — actual human engagement is limited"
+  Detail: Genuine opens between 8–15%. Consider list hygiene and
+  re-engagement campaigns.
+
+ABUSE RATE ISSUES
+─────────────────
+Critical (> 0.3%):
+  "High spam complaint (abuse) rate — serious reputation risk"
+  Detail: Abuse rate above 0.3% triggers ISP reputation penalties and can
+  lead to domain blacklisting.
+
+Warning (0.1-0.3%):
+  "Elevated spam complaint rate — approaching ISP threshold"
+  Detail: Abuse rate between 0.1–0.3%. Monitor closely — exceeding 0.3%
+  causes ISP throttling.
+
+HARD BOUNCE RATE ISSUES
+────────────────────────
+Critical (> 5%):
+  "High hard bounce rate — large volume of invalid addresses"
+  Detail: Hard bounce rate above 5% indicates a severely outdated or
+  low-quality list. ISPs penalize domains for repeated delivery attempts
+  to invalid addresses.
+
+Warning (2-5%):
+  "Elevated hard bounce rate — list contains stale or invalid addresses"
+  Detail: Hard bounce rate between 2–5%. Regular list cleaning and
+  suppression updates are needed.
+
+CLICK RATE ISSUES
+─────────────────
+Warning (< 1%):
+  "Very low click-through rate — email content not driving action"
+  Detail: Click rate under 1% suggests content relevance issues or poor
+  placement of CTAs.
+
+Info (1-2%):
+  "Below-average click rate — call-to-action effectiveness can be improved"
+  Detail: Click rate between 1–2%. A/B testing subject lines and CTAs
+  could improve this.
+
+UNSUBSCRIBE RATE ISSUES
+────────────────────────
+Warning (> 1%):
+  "High unsubscribe rate — recipients opting out at an elevated pace"
+  Detail: Unsub rate above 1% indicates content-audience mismatch
+  or over-mailing.
+
+Info (0.5-1%):
+  "Slightly elevated unsubscribe rate"
+  Detail: Review content personalization and mailing cadence.
+
+
+--------------------------------------------------------------------------------
+SECTION 8: RECOMMENDATIONS BY ISSUE TYPE
+--------------------------------------------------------------------------------
+
+DELIVERY RATE — CRITICAL ACTIONS
+──────────────────────────────────
+  Priority 1: Check domain and IP blacklist status immediately (MXToolbox, Talos)
+              Impact: High | Effort: Low
+
+  Priority 2: Review ISP feedback loops and bounce logs for block patterns
+              Impact: High | Effort: Medium
+
+  Priority 3: Audit authentication records — SPF, DKIM, DMARC alignment
+              Impact: High | Effort: Medium
+
+  Priority 4: Consider IP warm-up on a dedicated sending IP
+              Impact: High | Effort: High
+
+DELIVERY RATE — WARNING ACTIONS
+────────────────────────────────
+  Priority 1: Verify SPF and DKIM records are correctly published
+              Impact: Medium | Effort: Low
+
+  Priority 2: Reduce sending volume temporarily to recover sender reputation
+              Impact: Medium | Effort: Low
+
+  Priority 3: Review PMTA bounce handling and retry policies
+              Impact: Medium | Effort: Medium
+
+OPEN RATE — CRITICAL ACTIONS
+──────────────────────────────
+  Priority 1: Run A/B tests on subject lines — personalize with recipient's name
+              Impact: High | Effort: Low
+
+  Priority 2: Segment list and send only to most engaged users first
+              Impact: High | Effort: Medium
+
+  Priority 3: Optimize send time — test morning vs evening delivery windows
+              Impact: Medium | Effort: Low
+
+  Priority 4: Remove cold subscribers (no opens in last 90 days)
+              Impact: High | Effort: Medium
+
+OPEN RATE — WARNING ACTIONS
+─────────────────────────────
+  Priority 1: Test emoji or question-based subject lines to boost open rates
+              Impact: Medium | Effort: Low
+
+  Priority 2: Review preheader text — it displays next to subject in inbox
+              Impact: Medium | Effort: Low
+
+ABUSE RATE — CRITICAL ACTIONS
+───────────────────────────────
+  Priority 1: Immediately suppress all complainers and honor feedback loop data
+              Impact: High | Effort: Low
+
+  Priority 2: Audit consent — ensure all recipients explicitly opted in
+              Impact: High | Effort: Medium
+
+  Priority 3: Review sending frequency — reduce to 1–2 times per week max
+              Impact: High | Effort: Low
+
+  Priority 4: Make unsubscribe link prominent — reduce friction to opt out
+              Impact: High | Effort: Low
+
+HARD BOUNCE RATE — CRITICAL ACTIONS
+─────────────────────────────────────
+  Priority 1: Run full list validation — remove all invalid and non-existent emails
+              Impact: High | Effort: Medium
+
+  Priority 2: Enforce real-time email verification at point of data capture
+              Impact: High | Effort: High
+
+  Priority 3: Suppress all hard bounces immediately — stop retrying invalid emails
+              Impact: High | Effort: Low
+
+CLICK RATE — IMPROVEMENT ACTIONS
+──────────────────────────────────
+  Priority 1: Redesign CTA buttons — use action-oriented text and prominent placement
+              Impact: Medium | Effort: Low
+
+  Priority 2: Improve email content relevance through audience segmentation
+              Impact: Medium | Effort: Medium
+
+  Priority 3: Test single-CTA emails vs multi-link layout
+              Impact: Low | Effort: Low
+
+UNSUBSCRIBE RATE — IMPROVEMENT ACTIONS
+────────────────────────────────────────
+  Priority 1: Reduce sending frequency for high-volume campaigns
+              Impact: Medium | Effort: Low
+
+  Priority 2: Introduce email preference center — let users choose frequency
+              Impact: Medium | Effort: Medium
+
+  Priority 3: Survey unsubscribers to understand exit reasons
+              Impact: Low | Effort: Low
+
+
+--------------------------------------------------------------------------------
+SECTION 9: HOW TO USE THE DOMAIN REPUTATION AI AGENT
+--------------------------------------------------------------------------------
+
+Step-by-Step Usage Instructions
+---------------------------------
+
+Step 1: Enter a Domain Name
+  Provide the email sending domain you want to analyze.
+  Example: "Analyze the reputation of example.com"
+  Example: "What is the reputation score for bad-reputation.com?"
+  Example: "Check domain health for great-sender.com"
+
+Step 2: Specify Date Range (Optional)
+  You can specify a date range for the analysis period.
+  Example: "Analyze great-sender.com for the last 30 days"
+  Example: "Check bounce-heavy.net from April 1 to April 30 2026"
+  Default: Last 30 days if not specified
+
+Step 3: Review the Analysis
+  The agent returns:
+  → Overall reputation score (0-100)
+  → Classification label: GOOD ✅ / AVERAGE ⚠️ / BAD ❌
+  → Individual metric scores and values
+  → List of issues with severity levels
+  → Prioritized action plan with specific recommendations
+
+Step 4: Take Action
+  Use the recommendations to address identified issues.
+  Start with CRITICAL issues first, then WARNING, then INFO.
+
+
+Sample Questions to Ask the Agent
+-----------------------------------
+  "Analyze the domain bad-reputation.com"
+  "What issues does mid-tier-mail.com have?"
+  "What should I do to improve delivery rate for bounce-heavy.net?"
+  "Is great-sender.com a good or bad reputation domain?"
+  "Compare the health of great-sender.com and bad-reputation.com"
+  "What are the top recommendations for spammy-sender.org?"
+  "Analyze multiple domains: bad-reputation.com, great-sender.com, mid-tier-mail.com"
+
+
+--------------------------------------------------------------------------------
+SECTION 10: DEMO DOMAINS FOR TESTING
+--------------------------------------------------------------------------------
+
+Use these pre-configured demo domains to demonstrate all three reputation states:
+
+❌ BAD REPUTATION DOMAINS (Score < 40)
+  bad-reputation.com
+  bounce-heavy.net
+  spammy-sender.org
+
+  Expected Metrics:
+    Delivery Rate:     78.5%  (CRITICAL)
+    Open Rate:          6.2%  (CRITICAL)
+    Genuine Open Rate:  4.1%  (CRITICAL)
+    Abuse Rate:         0.45% (CRITICAL)
+    Hard Bounce Rate:   8.2%  (CRITICAL)
+    Click Rate:         0.4%  (WARNING)
+    Unsub Rate:         1.8%  (WARNING)
+
+⚠️ AVERAGE REPUTATION DOMAINS (Score 40-69)
+  mid-tier-mail.com
+  average-domain.net
+
+  Expected Metrics:
+    Delivery Rate:     91.0%  (WARNING)
+    Open Rate:         11.0%  (WARNING)
+    Genuine Open Rate:  8.5%  (WARNING)
+    Abuse Rate:         0.22% (WARNING)
+    Hard Bounce Rate:   4.2%  (WARNING)
+    Click Rate:         1.1%  (AVERAGE)
+    Unsub Rate:         0.85% (AVERAGE)
+
+✅ GOOD REPUTATION DOMAINS (Score 70+)
+  great-sender.com
+  healthy-domain.net
+  top-performer.org
+
+  Expected Metrics:
+    Delivery Rate:     97.8%  (GOOD)
+    Open Rate:         26.5%  (GOOD)
+    Genuine Open Rate: 22.3%  (GOOD)
+    Abuse Rate:         0.05% (GOOD)
+    Hard Bounce Rate:   0.9%  (GOOD)
+    Click Rate:         3.1%  (GOOD)
+    Unsub Rate:         0.3%  (GOOD)
+
+Note: Any domain name not in this list will also work — the agent
+automatically determines reputation based on the domain characteristics.
+
+
+--------------------------------------------------------------------------------
+SECTION 11: GLOSSARY OF TERMS
+--------------------------------------------------------------------------------
+
+Abuse Rate       — Percentage of emails marked as spam by recipients
+Bounce           — Email that could not be delivered to recipient's inbox
+DKIM             — DomainKeys Identified Mail; email authentication method
+DMARC            — Domain-based Message Authentication, Reporting & Conformance
+Delivery Rate    — Percentage of sent emails successfully delivered
+Domain           — The part of an email address after the @ symbol (e.g., zeta.com)
+FBL              — Feedback Loop; ISP mechanism to report spam complaints
+Genuine Open     — Email open confirmed to be from a human, not a bot
+Hard Bounce      — Permanent delivery failure (invalid address)
+ISP              — Internet Service Provider (Gmail, Outlook, Yahoo, etc.)
+MPP              — Apple Mail Privacy Protection (causes inflated open rates)
+Open Rate        — Percentage of delivered emails that were opened
+Reputation       — ISP's trust score for a sending domain
+Soft Bounce      — Temporary delivery failure (full mailbox, server down)
+SPF              — Sender Policy Framework; email authentication standard
+Suppression List — List of addresses to never email (unsubscribes, bounces)
+Unsubscribe Rate — Percentage of recipients who opted out of emails
+
+
+--------------------------------------------------------------------------------
+SECTION 12: QUICK REFERENCE — THRESHOLDS AT A GLANCE
+--------------------------------------------------------------------------------
+
+Metric               Weight   GOOD Threshold    AVERAGE Threshold   BAD (below/above)
+───────────────────────────────────────────────────────────────────────────────────────
+Delivery Rate         20%     ≥ 95%             90% - 94.9%         < 90%
+Open Rate             20%     ≥ 20%             10% - 19.9%         < 10%
+Abuse Rate            20%     ≤ 0.10%           0.10% - 0.30%       > 0.30%
+Genuine Open Rate     15%     ≥ 15%             8% - 14.9%          < 8%
+Click Rate            10%     ≥ 2%              1% - 1.9%           < 1%
+Hard Bounce Rate      10%     ≤ 2%              2% - 5%             > 5%
+Unsubscribe Rate       5%     ≤ 0.50%           0.50% - 1%          > 1%
+
+Classification:
+  Score 70-100  →  GOOD ✅
+  Score 40-69   →  AVERAGE ⚠️
+  Score 0-39    →  BAD ❌
+
+================================================================================
+END OF DOCUMENT
+Domain Reputation AI | Zeta Global Buildathon 2026
+================================================================================

@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -95,3 +96,32 @@ def analyze_copilot(req: AnalyzeRequest):
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "Domain Reputation AI"}
+
+
+@app.get("/.well-known/ai-plugin.json", include_in_schema=False)
+def ai_plugin():
+    return JSONResponse(content={
+        "schema_version": "v1",
+        "name_for_model": "domain_reputation_ai",
+        "name_for_human": "Domain Reputation AI",
+        "description_for_model": (
+            "Analyzes email domain reputation using a multi-agent AI system. "
+            "Given a domain name, it fetches email metrics and runs three agents: "
+            "Classifier (scores 0-100), Diagnosis (root causes), and Recommendation (action plan). "
+            "Use analyze-copilot endpoint for flat, readable responses."
+        ),
+        "description_for_human": (
+            "Multi-agent AI that classifies, diagnoses, and recommends fixes "
+            "for email domain reputation — Zeta Global Buildathon 2026."
+        ),
+        "auth": {
+            "type": "none"
+        },
+        "api": {
+            "type": "openapi",
+            "url": "https://domainreputationaiproject.onrender.com/openapi.json"
+        },
+        "logo_url": "https://domainreputationaiproject.onrender.com/health",
+        "contact_email": "njonnavada@zetaglobal.com",
+        "legal_info_url": "https://domainreputationaiproject.onrender.com/health"
+    })
